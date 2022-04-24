@@ -1,26 +1,15 @@
 import os
 
 from dotenv import load_dotenv
-from telegram import Update, ForceReply
-from telegram.ext import Updater
+
+from telegram_bot import TelegramFlowBot
 
 
-def start(update: Update):
-    """Send a message when the command /start is used."""
-    user = update.effective_user
-    update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
-
-
-def echo(update: Update):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
-
-
-def start_dialog_flow_bot(telegram_token):
-    updater = Updater(telegram_token)
+def start_tg_dialog_bot(telegram_token):
+    tg_flow_instance = TelegramFlowBot(telegram_token)
+    tg_flow_instance.add_command_handler(action='start', callback_function=tg_flow_instance.start)
+    tg_flow_instance.add_message_handler(callback_function=tg_flow_instance.echo)
+    tg_flow_instance.start_bot()
 
 
 def main():
@@ -28,7 +17,7 @@ def main():
     load_dotenv()
     telegram_token = os.getenv('TG_TOKEN')
 
-    start_dialog_flow_bot(telegram_token)
+    start_tg_dialog_bot(telegram_token)
 
 
 if __name__ == '__main__':
