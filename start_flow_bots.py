@@ -16,6 +16,7 @@ def main():
     """The main logic for starting dialog flow bot."""
     load_dotenv()
     telegram_token = os.getenv('TG_TOKEN')
+    google_app_creds = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 
     start_tg_dialog_bot(telegram_token)
 
