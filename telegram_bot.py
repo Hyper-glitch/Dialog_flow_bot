@@ -38,14 +38,3 @@ class TelegramFlowBot:
     def help_command(update: Update):
         """Send a message when the command /help is issued."""
         update.message.reply_text('Help!')
-
-
-if __name__ == '__main__':
-    load_dotenv()
-    telegram_token = os.getenv('TG_TOKEN')
-
-    tg_flow_instance = TelegramFlowBot(telegram_token)
-    tg_flow_instance.add_command_handler(action='start', callback_function=tg_flow_instance.start)
-    tg_flow_instance.add_message_handler(callback_function=tg_flow_instance.echo)
-
-    tg_flow_instance.start_bot()
