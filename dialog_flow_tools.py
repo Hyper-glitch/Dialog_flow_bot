@@ -1,7 +1,7 @@
 from google.cloud import dialogflow
 
 
-def detect_intent_texts(self, project_id, session_id, texts, language_code):
+def detect_intent_texts(project_id, session_id, texts, language_code):
     """Returns the result of detect intent with texts as inputs.
 
     Using the same `session_id` between requests allows continuation
@@ -18,3 +18,13 @@ def detect_intent_texts(self, project_id, session_id, texts, language_code):
         response = session_client.detect_intent(
             request={"session": session, "query_input": query_input}
         )
+
+        print("=" * 20)
+        print("Query text: {}".format(response.query_result.query_text))
+        print(
+            "Detected intent: {} (confidence: {})\n".format(
+                response.query_result.intent.display_name,
+                response.query_result.intent_detection_confidence,
+            )
+        )
+        print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text))
