@@ -1,30 +1,16 @@
 from google.cloud import dialogflow
 
 
-def detect_intent_texts(project_id, session_id, texts, language_code):
+def detect_intent_texts(text_from_user):
     """Returns the result of detect intent with texts as inputs.
-
     Using the same `session_id` between requests allows continuation
     of the conversation."""
+
     session_client = dialogflow.SessionsClient()
+    session = session_client.session_path(project='useful-assistant-bot-mgib', session='123456789')
+    text_input = dialogflow.TextInput(text=text_from_user, language_code='ru')
+    query_input = dialogflow.QueryInput(text=text_input)
 
-    session = session_client.session_path(project_id, session_id)
-
-    for text in texts:
-        text_input = dialogflow.TextInput(text=text, language_code=language_code)
-
-        query_input = dialogflow.QueryInput(text=text_input)
-
-        response = session_client.detect_intent(
-            request={"session": session, "query_input": query_input}
-        )
-
-        print("=" * 20)
-        print("Query text: {}".format(response.query_result.query_text))
-        print(
-            "Detected intent: {} (confidence: {})\n".format(
-                response.query_result.intent.display_name,
-                response.query_result.intent_detection_confidence,
-            )
-        )
-        print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text))
+    response = session_client.detect_intent(request={"session": session, "query_input": query_input})
+    detected_answer = response.query_result.fulfillment_text
+    return detected_answer
