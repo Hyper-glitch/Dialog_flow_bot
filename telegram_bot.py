@@ -1,8 +1,7 @@
-import os
-
-from dotenv import load_dotenv
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+
+from dialog_flow_tools import detect_intent_texts
 
 
 class TelegramFlowBot:
@@ -30,9 +29,11 @@ class TelegramFlowBot:
         )
 
     @staticmethod
-    def echo(update: Update, context: CallbackContext):
-        """Echo the user message."""
-        update.message.reply_text(update.message.text)
+    def answer(update: Update, context: CallbackContext):
+        """Send message from user to Dialog Flow and return detected answer to telegram chat."""
+        text_from_user = update.message.text
+        dialog_flow_response = detect_intent_texts(text_from_user)
+        update.message.reply_text(dialog_flow_response)
 
     @staticmethod
     def help_command(update: Update):
