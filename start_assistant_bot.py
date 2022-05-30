@@ -5,6 +5,7 @@ import vk_api as vk
 from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 
+from dialog_flow_tools import detect_intent_texts
 from telegram_bot import TelegramFlowBot
 
 
@@ -22,9 +23,11 @@ def start_vk_bot(vk_token):
 
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+            dialog_flow_answer = detect_intent_texts(event.text)
+
             vk_api.messages.send(
                 user_id=event.user_id,
-                message=event.text,
+                message=dialog_flow_answer,
                 random_id=random.randint(1, 1000),
             )
 
@@ -34,7 +37,7 @@ def main():
     load_dotenv()
     telegram_token = os.getenv('TG_TOKEN')
     vk_token = os.getenv('VK_GROUP_TOKEN')
-    # start_tg_bot(telegram_token)
+    start_tg_bot(telegram_token)
     start_vk_bot(vk_token)
 
 
