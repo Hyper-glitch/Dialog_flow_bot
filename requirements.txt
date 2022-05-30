@@ -2,3 +2,4 @@ python-telegram-bot>=13.11
 python-dotenv>=0.20.0
 google-cloud-dialogflow
 requests>=2.27.1
+vk_api
