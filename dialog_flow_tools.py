@@ -12,8 +12,8 @@ def detect_intent_texts(text_from_user):
     text_input = dialogflow.TextInput(text=text_from_user, language_code='ru')
     query_input = dialogflow.QueryInput(text=text_input)
     response = session_client.detect_intent(request={'session': session, 'query_input': query_input})
-    dialogflow_answer = response.query_result.fulfillment_text
-    return dialogflow_answer
+    dialog_flow_answer = response.query_result.fulfillment_text
+    return dialog_flow_answer
 
 
 def create_intent():
