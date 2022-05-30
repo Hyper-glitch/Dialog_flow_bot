@@ -32,8 +32,8 @@ class TelegramFlowBot:
     def answer(update: Update, context: CallbackContext):
         """Send message from user to Dialog Flow and return detected answer to telegram chat."""
         text_from_user = update.message.text
-        dialog_flow_response = detect_intent_texts(text_from_user)
-        update.message.reply_text(dialog_flow_response)
+        dialog_flow_answer = detect_intent_texts(text_from_user)
+        update.message.reply_text(dialog_flow_answer)
 
     @staticmethod
     def help_command(update: Update):
